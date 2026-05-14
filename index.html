@@ -116,6 +116,13 @@
             justify-content: center;
         }
 
+        .sibling-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
         .person {
             background: white;
             border: 2.5px solid #000;
@@ -164,6 +171,12 @@
 
         line.merged {
             stroke: #7c3aed;
+        }
+
+        line.sibling {
+            stroke: #666;
+            stroke-width: 1.5;
+            stroke-dasharray: 3, 3;
         }
 
         @media (max-width: 1200px) {
@@ -241,6 +254,10 @@
             <div class="legend-item">
                 <div class="legend-line merged"></div>
                 <span>Merged (Marriage)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-line sibling"></div>
+                <span>Siblings</span>
             </div>
         </div>
 
@@ -320,8 +337,15 @@
                     </div>
                 </div>
 
-                <!-- Generation 3: Parents (2 people) -->
+                <!-- Generation 3: Parents and Siblings -->
                 <div class="generation" id="gen3">
+                    <div class="sibling-group">
+                        <div class="person paternal" data-id="father-sibling">
+                            <span class="person-name">Stephanie Lynn Bayless</span>
+                            <span class="person-info">Durham, NC</span>
+                        </div>
+                    </div>
+
                     <div class="couple-group">
                         <div class="person paternal" data-id="father">
                             <span class="person-name">Stuart Winston Bayless</span>
@@ -332,9 +356,20 @@
                             <span class="person-info">b. 1965 | Princeton, NJ</span>
                         </div>
                     </div>
+
+                    <div class="sibling-group">
+                        <div class="person maternal" data-id="mother-sibling1">
+                            <span class="person-name">Lisa Langmyhr</span>
+                            <span class="person-info">b. 1961 | Ontario, CN</span>
+                        </div>
+                        <div class="person maternal" data-id="mother-sibling2">
+                            <span class="person-name">Kari Langmyhr</span>
+                            <span class="person-info">b. 1963 | Ontario, CN</span>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Generation 4: You (1 person) -->
+                <!-- Generation 4: You -->
                 <div class="generation" id="gen4">
                     <div class="person you merged" data-id="you">
                         <span class="person-name">Reed Winston Bayless</span>
@@ -464,6 +499,32 @@
                 
                 drawLine(persons.pg4.x, persons.pg4.bottom, persons.pg4.x, persons.pg4.bottom + 20, 'maternal');
                 drawLine(persons.pg4.x, persons.pg4.bottom + 20, mid, persons.pg3.bottom + 20, 'maternal');
+            }
+
+            // Sibling line - Father and his sibling
+            if (persons.father && persons['father-sibling']) {
+                const midSib = (persons.father.x + persons['father-sibling'].x) / 2;
+                drawLine(persons.father.x, persons.father.y - 15, persons.father.x, persons.father.y - 35, 'sibling');
+                drawLine(persons.father.x, persons.father.y - 35, midSib, persons.father.y - 35, 'sibling');
+                drawLine(midSib, persons.father.y - 35, persons['father-sibling'].x, persons.father.y - 35, 'sibling');
+                drawLine(persons['father-sibling'].x, persons.father.y - 35, persons['father-sibling'].x, persons['father-sibling'].y - 15, 'sibling');
+            }
+
+            // Sibling line - Mother and her siblings
+            if (persons.mother && persons['mother-sibling1'] && persons['mother-sibling2']) {
+                const sibLeft = persons['mother-sibling1'].x;
+                const sibRight = persons['mother-sibling2'].x;
+                const momX = persons.mother.x;
+                const minX = Math.min(sibLeft, momX, sibRight);
+                const maxX = Math.max(sibLeft, momX, sibRight);
+                
+                drawLine(sibLeft, persons['mother-sibling1'].y - 15, sibLeft, persons.mother.y - 35, 'maternal');
+                drawLine(sibLeft, persons.mother.y - 35, maxX + 10, persons.mother.y - 35, 'maternal');
+                drawLine(maxX + 10, persons.mother.y - 35, momX, persons.mother.y - 35, 'maternal');
+                drawLine(momX, persons.mother.y - 35, momX, persons.mother.y - 15, 'maternal');
+                
+                drawLine(sibRight, persons['mother-sibling2'].y - 15, sibRight, persons.mother.y - 35, 'maternal');
+                drawLine(sibRight, persons.mother.y - 35, maxX + 10, persons.mother.y - 35, 'maternal');
             }
 
             // Parents to you - MERGED
