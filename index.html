@@ -23,8 +23,9 @@
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 1600px;
+            max-width: 100%;
             margin: 0 auto;
+            overflow-x: auto;
         }
 
         h1 {
@@ -43,6 +44,7 @@
             padding: 20px;
             background: #f9f9f9;
             border-radius: 4px;
+            flex-wrap: wrap;
         }
 
         .legend-item {
@@ -69,82 +71,87 @@
             background: #7c3aed;
         }
 
+        .tree-wrapper {
+            position: relative;
+            min-width: max-content;
+            display: inline-block;
+            width: 100%;
+        }
+
         .tree {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 80px;
+            position: relative;
+            padding: 0 20px;
+            min-width: max-content;
+        }
+
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .generation {
             display: flex;
             justify-content: center;
-            gap: 60px;
+            gap: 30px;
             width: 100%;
-            flex-wrap: wrap;
             position: relative;
+            z-index: 1;
+            flex-wrap: wrap;
+            min-width: max-content;
         }
 
-        .lineage-group {
+        .couple-group {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 40px;
-        }
-
-        .couple-container {
-            display: flex;
-            gap: 20px;
+            gap: 15px;
             align-items: center;
             justify-content: center;
         }
 
         .person {
             background: white;
-            border: 3px solid #000;
+            border: 2.5px solid #000;
             border-radius: 20px;
-            padding: 10px 15px;
+            padding: 8px 12px;
             text-align: center;
-            min-width: 140px;
-            font-size: 0.85em;
+            font-size: 0.75em;
             font-weight: bold;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .person.you {
             border-width: 3px;
-            min-width: 180px;
-            padding: 12px 18px;
-            font-size: 0.95em;
+            padding: 10px 14px;
+            font-size: 0.8em;
         }
 
         .person-name {
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 2px;
+            display: block;
         }
 
         .person-info {
-            font-size: 0.75em;
+            font-size: 0.7em;
             color: #666;
-        }
-
-        /* SVG Canvas for lines */
-        svg {
-            position: absolute;
-            top: -80px;
-            left: 0;
-            width: 100%;
-            height: 80px;
-            pointer-events: none;
-        }
-
-        .generation {
-            position: relative;
+            display: block;
+            line-height: 1.2;
         }
 
         line {
             stroke: #000;
             stroke-width: 2;
             stroke-dasharray: 5, 5;
+            fill: none;
         }
 
         line.paternal {
@@ -160,14 +167,27 @@
         }
 
         @media (max-width: 1200px) {
-            .generation {
-                gap: 40px;
+            .person {
+                font-size: 0.7em;
+                padding: 6px 10px;
+                border-radius: 15px;
             }
 
-            .person {
-                min-width: 120px;
-                font-size: 0.8em;
+            .person.you {
+                font-size: 0.75em;
                 padding: 8px 12px;
+            }
+
+            .couple-group {
+                gap: 12px;
+            }
+
+            .generation {
+                gap: 20px;
+            }
+
+            .tree {
+                gap: 60px;
             }
         }
 
@@ -176,23 +196,31 @@
                 font-size: 1.8em;
             }
 
-            .tree {
-                gap: 60px;
-            }
-
-            .generation {
-                gap: 30px;
+            .container {
+                padding: 20px;
             }
 
             .person {
-                min-width: 100px;
-                font-size: 0.7em;
-                padding: 6px 10px;
-                border-radius: 15px;
+                font-size: 0.65em;
+                padding: 5px 8px;
+                border-width: 2px;
             }
 
-            .couple-container {
+            .person.you {
+                font-size: 0.7em;
+                padding: 6px 10px;
+            }
+
+            .couple-group {
+                gap: 10px;
+            }
+
+            .generation {
                 gap: 15px;
+            }
+
+            .tree {
+                gap: 50px;
             }
         }
     </style>
@@ -216,117 +244,244 @@
             </div>
         </div>
 
-        <div class="tree">
-            <!-- Generation 1: Great-Grandparents -->
-            <div class="generation" id="gen1">
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person paternal">
-                            <div class="person-name">Theodore Crowl Bayless</div>
-                            <div class="person-info">1913 — 1978</div>
+        <div class="tree-wrapper">
+            <svg id="connections"></svg>
+            
+            <div class="tree">
+                <!-- Generation 1: Great-Grandparents (8 people) -->
+                <div class="generation" id="gen1">
+                    <div class="couple-group">
+                        <div class="person paternal" data-id="gg1">
+                            <span class="person-name">Theodore Crowl Bayless</span>
+                            <span class="person-info">1913–1978</span>
                         </div>
-                        <div class="person paternal">
-                            <div class="person-name">Doris Esther Sprauge</div>
-                            <div class="person-info">1914 — 2010</div>
+                        <div class="person paternal" data-id="gg2">
+                            <span class="person-name">Doris Esther Sprauge</span>
+                            <span class="person-info">1914–2010</span>
+                        </div>
+                    </div>
+
+                    <div class="couple-group">
+                        <div class="person paternal" data-id="gg3">
+                            <span class="person-name">William Henry Parlette</span>
+                            <span class="person-info">1908–1992</span>
+                        </div>
+                        <div class="person paternal" data-id="gg4">
+                            <span class="person-name">Mabel Althea Parlette</span>
+                            <span class="person-info">1912–1980</span>
+                        </div>
+                    </div>
+
+                    <div class="couple-group">
+                        <div class="person maternal" data-id="gg5">
+                            <span class="person-name">Georg Johan Langmyhr</span>
+                            <span class="person-info">1883–1953</span>
+                        </div>
+                        <div class="person maternal" data-id="gg6">
+                            <span class="person-name">Ingeborg Olsdatter Sveen</span>
+                            <span class="person-info">1903–1967</span>
+                        </div>
+                    </div>
+
+                    <div class="couple-group">
+                        <div class="person maternal" data-id="gg7">
+                            <span class="person-name">William Flanders Harrison</span>
+                            <span class="person-info">1889–1975</span>
+                        </div>
+                        <div class="person maternal" data-id="gg8">
+                            <span class="person-name">Doris Macintyre Harrison</span>
+                            <span class="person-info">1894–1977</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person paternal">
-                            <div class="person-name">William Henry Parlette</div>
-                            <div class="person-info">1908 — 1992</div>
+                <!-- Generation 2: Grandparents (4 people) -->
+                <div class="generation" id="gen2">
+                    <div class="couple-group">
+                        <div class="person paternal" data-id="pg1">
+                            <span class="person-name">Theodore Lynn Bayless</span>
+                            <span class="person-info">1935–2015</span>
                         </div>
-                        <div class="person paternal">
-                            <div class="person-name">Mabel Althea Parlette</div>
-                            <div class="person-info">1912 — 1980</div>
+                        <div class="person paternal" data-id="pg2">
+                            <span class="person-name">Willathea Patzer</span>
+                            <span class="person-info">1935–2025</span>
+                        </div>
+                    </div>
+
+                    <div class="couple-group">
+                        <div class="person maternal" data-id="pg3">
+                            <span class="person-name">George John Langmyhr</span>
+                            <span class="person-info">1931–1993</span>
+                        </div>
+                        <div class="person maternal" data-id="pg4">
+                            <span class="person-name">Maureen Macintyre Langmyhr</span>
+                            <span class="person-info">1930–2024</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person maternal">
-                            <div class="person-name">Georg Johan Langmyhr</div>
-                            <div class="person-info">1883 — 1953</div>
+                <!-- Generation 3: Parents (2 people) -->
+                <div class="generation" id="gen3">
+                    <div class="couple-group">
+                        <div class="person paternal" data-id="father">
+                            <span class="person-name">Stuart Winston Bayless</span>
+                            <span class="person-info">b. 1965 | Durham, NC</span>
                         </div>
-                        <div class="person maternal">
-                            <div class="person-name">Ingeborg Olsdatter Sveen</div>
-                            <div class="person-info">1903 — 1967</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person maternal">
-                            <div class="person-name">William Flanders Harrison</div>
-                            <div class="person-info">1889 — 1975</div>
-                        </div>
-                        <div class="person maternal">
-                            <div class="person-name">Doris Macintyre Harrison</div>
-                            <div class="person-info">1894 — 1977</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Generation 2: Grandparents -->
-            <div class="generation" id="gen2">
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person paternal">
-                            <div class="person-name">Theodore Lynn Bayless</div>
-                            <div class="person-info">1935 — 2015</div>
-                        </div>
-                        <div class="person paternal">
-                            <div class="person-name">Willathea Patzer</div>
-                            <div class="person-info">1935 — 2025</div>
+                        <div class="person maternal" data-id="mother">
+                            <span class="person-name">Sarah Maureen Harrison</span>
+                            <span class="person-info">b. 1965 | Princeton, NJ</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person maternal">
-                            <div class="person-name">George John Langmyhr</div>
-                            <div class="person-info">1931 — 1993</div>
-                        </div>
-                        <div class="person maternal">
-                            <div class="person-name">Maureen Macintyre Langmyhr</div>
-                            <div class="person-info">1930 — 2024</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Generation 3: Parents -->
-            <div class="generation" id="gen3">
-                <div class="lineage-group">
-                    <div class="couple-container">
-                        <div class="person paternal">
-                            <div class="person-name">Stuart Winston Bayless</div>
-                            <div class="person-info">b. 1965<br>Durham, NC</div>
-                        </div>
-                        <div class="person maternal">
-                            <div class="person-name">Sarah Maureen Harrison</div>
-                            <div class="person-info">b. 1965<br>Princeton, NJ</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Generation 4: You -->
-            <div class="generation" id="gen4">
-                <div class="lineage-group">
-                    <div class="person you merged">
-                        <div class="person-name">Reed Winston Bayless</div>
-                        <div class="person-info">b. 2003<br>Seattle, WA</div>
+                <!-- Generation 4: You (1 person) -->
+                <div class="generation" id="gen4">
+                    <div class="person you merged" data-id="you">
+                        <span class="person-name">Reed Winston Bayless</span>
+                        <span class="person-info">b. 2003 | Seattle, WA</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        function drawConnections() {
+            const svg = document.getElementById('connections');
+            const tree = document.querySelector('.tree');
+            const wrapper = document.querySelector('.tree-wrapper');
+
+            svg.setAttribute('width', wrapper.scrollWidth);
+            svg.setAttribute('height', tree.offsetHeight);
+
+            // Clear previous lines
+            while (svg.firstChild) {
+                svg.removeChild(svg.firstChild);
+            }
+
+            function getPosition(elem) {
+                const rect = elem.getBoundingClientRect();
+                const wrapperRect = wrapper.getBoundingClientRect();
+                const treeRect = tree.getBoundingClientRect();
+                
+                return {
+                    x: rect.left - wrapperRect.left + rect.width / 2,
+                    y: rect.top - treeRect.top + rect.height / 2,
+                    bottom: rect.bottom - treeRect.top
+                };
+            }
+
+            function drawLine(x1, y1, x2, y2, lineClass) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                line.setAttribute('class', lineClass);
+                svg.appendChild(line);
+            }
+
+            // Get all elements
+            const persons = {};
+            document.querySelectorAll('[data-id]').forEach(elem => {
+                persons[elem.getAttribute('data-id')] = getPosition(elem);
+            });
+
+            // Draw connections from great-grandparents to grandparents
+            // gg1, gg2 → pg1
+            if (persons.gg1 && persons.gg2 && persons.pg1) {
+                const mid = (persons.gg1.x + persons.gg2.x) / 2;
+                drawLine(persons.gg1.x, persons.gg1.bottom, persons.gg1.x, persons.gg1.bottom + 20, 'paternal');
+                drawLine(persons.gg1.x, persons.gg1.bottom + 20, mid, persons.gg1.bottom + 20, 'paternal');
+                drawLine(mid, persons.gg1.bottom + 20, mid, persons.pg1.y - 30, 'paternal');
+                drawLine(mid, persons.pg1.y - 30, persons.pg1.x, persons.pg1.y - 30, 'paternal');
+                drawLine(persons.pg1.x, persons.pg1.y - 30, persons.pg1.x, persons.pg1.y, 'paternal');
+                
+                drawLine(persons.gg2.x, persons.gg2.bottom, persons.gg2.x, persons.gg2.bottom + 20, 'paternal');
+                drawLine(persons.gg2.x, persons.gg2.bottom + 20, mid, persons.gg1.bottom + 20, 'paternal');
+            }
+
+            // gg3, gg4 → pg2
+            if (persons.gg3 && persons.gg4 && persons.pg2) {
+                const mid = (persons.gg3.x + persons.gg4.x) / 2;
+                drawLine(persons.gg3.x, persons.gg3.bottom, persons.gg3.x, persons.gg3.bottom + 20, 'paternal');
+                drawLine(persons.gg3.x, persons.gg3.bottom + 20, mid, persons.gg3.bottom + 20, 'paternal');
+                drawLine(mid, persons.gg3.bottom + 20, mid, persons.pg2.y - 30, 'paternal');
+                drawLine(mid, persons.pg2.y - 30, persons.pg2.x, persons.pg2.y - 30, 'paternal');
+                drawLine(persons.pg2.x, persons.pg2.y - 30, persons.pg2.x, persons.pg2.y, 'paternal');
+                
+                drawLine(persons.gg4.x, persons.gg4.bottom, persons.gg4.x, persons.gg4.bottom + 20, 'paternal');
+                drawLine(persons.gg4.x, persons.gg4.bottom + 20, mid, persons.gg3.bottom + 20, 'paternal');
+            }
+
+            // gg5, gg6 → pg3
+            if (persons.gg5 && persons.gg6 && persons.pg3) {
+                const mid = (persons.gg5.x + persons.gg6.x) / 2;
+                drawLine(persons.gg5.x, persons.gg5.bottom, persons.gg5.x, persons.gg5.bottom + 20, 'maternal');
+                drawLine(persons.gg5.x, persons.gg5.bottom + 20, mid, persons.gg5.bottom + 20, 'maternal');
+                drawLine(mid, persons.gg5.bottom + 20, mid, persons.pg3.y - 30, 'maternal');
+                drawLine(mid, persons.pg3.y - 30, persons.pg3.x, persons.pg3.y - 30, 'maternal');
+                drawLine(persons.pg3.x, persons.pg3.y - 30, persons.pg3.x, persons.pg3.y, 'maternal');
+                
+                drawLine(persons.gg6.x, persons.gg6.bottom, persons.gg6.x, persons.gg6.bottom + 20, 'maternal');
+                drawLine(persons.gg6.x, persons.gg6.bottom + 20, mid, persons.gg5.bottom + 20, 'maternal');
+            }
+
+            // gg7, gg8 → pg4
+            if (persons.gg7 && persons.gg8 && persons.pg4) {
+                const mid = (persons.gg7.x + persons.gg8.x) / 2;
+                drawLine(persons.gg7.x, persons.gg7.bottom, persons.gg7.x, persons.gg7.bottom + 20, 'maternal');
+                drawLine(persons.gg7.x, persons.gg7.bottom + 20, mid, persons.gg7.bottom + 20, 'maternal');
+                drawLine(mid, persons.gg7.bottom + 20, mid, persons.pg4.y - 30, 'maternal');
+                drawLine(mid, persons.pg4.y - 30, persons.pg4.x, persons.pg4.y - 30, 'maternal');
+                drawLine(persons.pg4.x, persons.pg4.y - 30, persons.pg4.x, persons.pg4.y, 'maternal');
+                
+                drawLine(persons.gg8.x, persons.gg8.bottom, persons.gg8.x, persons.gg8.bottom + 20, 'maternal');
+                drawLine(persons.gg8.x, persons.gg8.bottom + 20, mid, persons.gg7.bottom + 20, 'maternal');
+            }
+
+            // Grandparents to parents - PATERNAL
+            if (persons.pg1 && persons.pg2 && persons.father) {
+                const mid = (persons.pg1.x + persons.pg2.x) / 2;
+                drawLine(persons.pg1.x, persons.pg1.bottom, persons.pg1.x, persons.pg1.bottom + 20, 'paternal');
+                drawLine(persons.pg1.x, persons.pg1.bottom + 20, mid, persons.pg1.bottom + 20, 'paternal');
+                drawLine(mid, persons.pg1.bottom + 20, mid, persons.father.y - 30, 'paternal');
+                drawLine(mid, persons.father.y - 30, persons.father.x, persons.father.y - 30, 'paternal');
+                drawLine(persons.father.x, persons.father.y - 30, persons.father.x, persons.father.y, 'paternal');
+                
+                drawLine(persons.pg2.x, persons.pg2.bottom, persons.pg2.x, persons.pg2.bottom + 20, 'paternal');
+                drawLine(persons.pg2.x, persons.pg2.bottom + 20, mid, persons.pg1.bottom + 20, 'paternal');
+            }
+
+            // Grandparents to parents - MATERNAL
+            if (persons.pg3 && persons.pg4 && persons.mother) {
+                const mid = (persons.pg3.x + persons.pg4.x) / 2;
+                drawLine(persons.pg3.x, persons.pg3.bottom, persons.pg3.x, persons.pg3.bottom + 20, 'maternal');
+                drawLine(persons.pg3.x, persons.pg3.bottom + 20, mid, persons.pg3.bottom + 20, 'maternal');
+                drawLine(mid, persons.pg3.bottom + 20, mid, persons.mother.y - 30, 'maternal');
+                drawLine(mid, persons.mother.y - 30, persons.mother.x, persons.mother.y - 30, 'maternal');
+                drawLine(persons.mother.x, persons.mother.y - 30, persons.mother.x, persons.mother.y, 'maternal');
+                
+                drawLine(persons.pg4.x, persons.pg4.bottom, persons.pg4.x, persons.pg4.bottom + 20, 'maternal');
+                drawLine(persons.pg4.x, persons.pg4.bottom + 20, mid, persons.pg3.bottom + 20, 'maternal');
+            }
+
+            // Parents to you - MERGED
+            if (persons.father && persons.mother && persons.you) {
+                const mid = (persons.father.x + persons.mother.x) / 2;
+                drawLine(persons.father.x, persons.father.bottom, persons.father.x, persons.father.bottom + 20, 'merged');
+                drawLine(persons.father.x, persons.father.bottom + 20, mid, persons.father.bottom + 20, 'merged');
+                drawLine(mid, persons.father.bottom + 20, mid, persons.you.y - 30, 'merged');
+                drawLine(mid, persons.you.y - 30, persons.you.x, persons.you.y - 30, 'merged');
+                drawLine(persons.you.x, persons.you.y - 30, persons.you.x, persons.you.y, 'merged');
+                
+                drawLine(persons.mother.x, persons.mother.bottom, persons.mother.x, persons.mother.bottom + 20, 'merged');
+                drawLine(persons.mother.x, persons.mother.bottom + 20, mid, persons.father.bottom + 20, 'merged');
+            }
+        }
+
+        window.addEventListener('load', drawConnections);
+        window.addEventListener('resize', drawConnections);
+    </script>
 </body>
 </html>
