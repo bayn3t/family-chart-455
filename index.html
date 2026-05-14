@@ -16,15 +16,15 @@
             background: #f5f5f5;
             padding: 40px 20px;
             color: #333;
+            overflow-x: auto;
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
             background: white;
             padding: 40px;
             border-radius: 4px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            min-height: 100vh;
         }
 
         h1 {
@@ -36,69 +36,13 @@
             letter-spacing: 0.5px;
         }
 
-        .tree-section {
-            margin-bottom: 60px;
-        }
-
-        .section-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        /* Tree structure */
-        .tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .generation {
+        .tree-wrapper {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin-bottom: 40px;
             position: relative;
-            flex-wrap: wrap;
         }
 
-        .generation.parents {
-            gap: 80px;
-        }
-
-        .generation.grandparents {
-            gap: 60px;
-        }
-
-        .member {
-            padding: 15px 25px;
-            border: 2px solid #2c3e50;
-            border-radius: 20px;
-            background: white;
-            text-align: center;
-            min-width: 140px;
-            position: relative;
-            font-size: 0.95em;
-            font-weight: 500;
-        }
-
-        .member-name {
-            font-weight: 600;
-            color: #1a1a1a;
-            margin-bottom: 5px;
-        }
-
-        .member-relation {
-            font-size: 0.85em;
-            color: #666;
-            font-weight: 400;
-        }
-
-        /* Connection lines */
-        svg {
+        svg.connections {
             position: absolute;
             top: 0;
             left: 0;
@@ -108,122 +52,133 @@
             z-index: 0;
         }
 
-        .generation-wrapper {
+        .tree-content {
             position: relative;
-            width: 100%;
-            min-height: 120px;
+            z-index: 1;
+        }
+
+        /* Level containers */
+        .generation-level {
             display: flex;
             justify-content: center;
+            gap: 20px;
+            margin-bottom: 100px;
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .generation-level.level-1 {
+            gap: 15px;
+        }
+
+        .generation-level.level-2 {
+            gap: 30px;
+        }
+
+        .generation-level.level-3 {
+            gap: 40px;
+        }
+
+        .generation-level.level-4 {
+            gap: 50px;
+        }
+
+        .generation-level.level-5 {
+            gap: 30px;
+        }
+
+        /* Family branch containers */
+        .family-branch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .branch-pair {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            position: relative;
+        }
+
+        .branch-pair.vertical {
+            flex-direction: column;
+            gap: 50px;
             align-items: center;
         }
 
-        /* Grandparents sibling groups */
-        .sibling-group {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-            align-items: flex-start;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .sibling-group-title {
-            font-size: 0.95em;
-            font-weight: 600;
-            color: #555;
-            margin-bottom: 15px;
+        /* Member cards */
+        .member {
+            padding: 12px 20px;
+            border: 2px solid #2c3e50;
+            border-radius: 20px;
+            background: white;
             text-align: center;
-            width: 100%;
-            grid-column: 1 / -1;
-        }
-
-        .generation.great-grandparents {
-            gap: 40px;
-            justify-content: center;
-        }
-
-        .great-grandparent-pair {
-            text-align: center;
-        }
-
-        .great-grandparent-pair .member {
-            margin: 0 10px;
-            display: inline-block;
             min-width: 130px;
+            position: relative;
+            font-size: 0.9em;
+            font-weight: 500;
+            white-space: nowrap;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        /* You (bottom) */
-        .you-generation {
-            margin-top: 50px;
+        .member-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+            font-size: 0.95em;
         }
 
-        .you-member {
-            padding: 18px 30px;
+        .member-relation {
+            font-size: 0.8em;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .member.you {
+            padding: 15px 25px;
             border: 3px solid #2c3e50;
             background: #f9f9f9;
+            min-width: 150px;
         }
 
-        /* Connection styling */
-        .connection-line {
+        /* Connection lines */
+        .line {
             stroke: #2c3e50;
             stroke-width: 2;
             stroke-dasharray: 5,5;
             fill: none;
         }
 
-        .connection-solid {
+        .line-solid {
             stroke: #2c3e50;
             stroke-width: 2;
             fill: none;
         }
 
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 1.8em;
-            }
-
-            .generation {
-                gap: 20px;
-            }
-
-            .generation.parents {
-                gap: 40px;
-            }
-
-            .member {
-                min-width: 120px;
-                padding: 12px 20px;
-                font-size: 0.9em;
-            }
+        .line-couple {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            fill: none;
         }
 
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
+        /* Generational labels */
+        .generation-label {
+            position: absolute;
+            left: -120px;
+            top: 0;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #666;
+            width: 110px;
+            text-align: right;
+        }
 
-            h1 {
-                font-size: 1.5em;
-                margin-bottom: 30px;
-            }
-
-            .generation {
-                gap: 15px;
-                margin-bottom: 30px;
-            }
-
-            .generation.parents {
-                gap: 30px;
-            }
-
+        @media (max-width: 1400px) {
             .member {
                 min-width: 110px;
-                padding: 10px 15px;
+                padding: 10px 16px;
                 font-size: 0.85em;
             }
 
@@ -234,6 +189,43 @@
             .member-relation {
                 font-size: 0.75em;
             }
+
+            .generation-level {
+                gap: 15px;
+                margin-bottom: 80px;
+            }
+
+            .generation-level.level-3 {
+                gap: 25px;
+            }
+
+            .generation-level.level-4 {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .member {
+                min-width: 100px;
+                padding: 9px 14px;
+                font-size: 0.8em;
+            }
+
+            .member-name {
+                font-size: 0.85em;
+            }
+
+            .member-relation {
+                font-size: 0.7em;
+            }
+
+            .generation-label {
+                display: none;
+            }
+
+            .generation-level {
+                margin-bottom: 60px;
+            }
         }
     </style>
 </head>
@@ -241,144 +233,169 @@
     <div class="container">
         <h1>Family Tree</h1>
 
-        <!-- Generation 1: Great-Grandparents (Dad's Side) -->
-        <div class="tree-section">
-            <div class="section-title">Great-Grandparents - Paternal Line</div>
-            <div class="tree">
-                <div class="generation great-grandparents">
-                    <div class="member">
-                        <div class="member-name">Theodore Crowl Bayless</div>
-                        <div class="member-relation">Great-Grandfather</div>
-                    </div>
-                    <div class="member">
-                        <div class="member-name">Doris Esther Sprauge</div>
-                        <div class="member-relation">Great-Grandmother</div>
-                    </div>
-                    <div class="member">
-                        <div class="member-name">William Henry Parlette</div>
-                        <div class="member-relation">Great-Grandfather</div>
-                    </div>
-                    <div class="member">
-                        <div class="member-name">Mabel Althea Parlette</div>
-                        <div class="member-relation">Great-Grandmother</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="tree-wrapper">
+            <svg class="connections" id="connections"></svg>
 
-        <!-- Generation 1: Great-Grandparents (Mom's Side) -->
-        <div class="tree-section">
-            <div class="section-title">Great-Grandparents - Maternal Line</div>
-            <div class="tree">
-                <div class="generation great-grandparents">
-                    <div class="member">
-                        <div class="member-name">Georg Johan Langmyhr</div>
-                        <div class="member-relation">Great-Grandfather</div>
+            <div class="tree-content">
+                <!-- Level 1: Great-Grandparents -->
+                <div class="generation-level level-1">
+                    <!-- Paternal Great-Grandparents Left -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Theodore Crowl Bayless</div>
+                            <div class="member-relation">Great-Grandfather</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Ingeborg Olsdatter Sveen</div>
-                        <div class="member-relation">Great-Grandmother</div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Doris Esther Sprauge</div>
+                            <div class="member-relation">Great-Grandmother</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">William Flanders Harrison</div>
-                        <div class="member-relation">Great-Grandfather</div>
-                    </div>
-                    <div class="member">
-                        <div class="member-name">Doris Macintyre Harrison</div>
-                        <div class="member-relation">Great-Grandmother</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Generation 2: Grandparents -->
-        <div class="tree-section">
-            <div class="section-title">Grandparents</div>
-            <div class="tree">
-                <!-- Dad's Parents -->
-                <div class="generation-wrapper">
-                    <div class="section-title" style="margin: 0 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Paternal Grandparents</div>
-                </div>
-                <div class="generation">
-                    <div class="member">
-                        <div class="member-name">Theodore Lynn Bayless</div>
-                        <div class="member-relation">Grandfather</div>
+                    <!-- Paternal Great-Grandparents Right -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">William Henry Parlette</div>
+                            <div class="member-relation">Great-Grandfather</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Willathea Patzer</div>
-                        <div class="member-relation">Grandmother</div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Mabel Althea Parlette</div>
+                            <div class="member-relation">Great-Grandmother</div>
+                        </div>
+                    </div>
+
+                    <!-- Maternal Great-Grandparents Left -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Georg Johan Langmyhr</div>
+                            <div class="member-relation">Great-Grandfather</div>
+                        </div>
+                    </div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Ingeborg Olsdatter Sveen</div>
+                            <div class="member-relation">Great-Grandmother</div>
+                        </div>
+                    </div>
+
+                    <!-- Maternal Great-Grandparents Right -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">William Flanders Harrison</div>
+                            <div class="member-relation">Great-Grandfather</div>
+                        </div>
+                    </div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Doris Macintyre Harrison</div>
+                            <div class="member-relation">Great-Grandmother</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Mom's Parents -->
-                <div class="generation-wrapper">
-                    <div class="section-title" style="margin: 40px 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Maternal Grandparents</div>
-                </div>
-                <div class="generation">
-                    <div class="member">
-                        <div class="member-name">George John Langmyhr</div>
-                        <div class="member-relation">Grandfather</div>
+                <!-- Level 2: Grandparents -->
+                <div class="generation-level level-2">
+                    <!-- Paternal Grandparents -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Theodore Lynn Bayless</div>
+                            <div class="member-relation">Grandfather</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Maureen Macintyre Langmyhr</div>
-                        <div class="member-relation">Grandmother</div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Willathea Patzer</div>
+                            <div class="member-relation">Grandmother</div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Generation 3: Parents & Their Siblings -->
-        <div class="tree-section">
-            <div class="section-title">Parents & Aunts/Uncles</div>
-            <div class="tree">
-                <!-- Dad's Family (Parents and Siblings) -->
-                <div class="generation-wrapper">
-                    <div class="section-title" style="margin: 0 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Paternal Line</div>
-                </div>
-                <div class="generation">
-                    <div class="member">
-                        <div class="member-name">Stuart Bayless</div>
-                        <div class="member-relation">Father</div>
+                    <!-- Maternal Grandparents -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">George John Langmyhr</div>
+                            <div class="member-relation">Grandfather</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Stephanie Bayless</div>
-                        <div class="member-relation">Aunt (Sister)</div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Maureen Macintyre Langmyhr</div>
+                            <div class="member-relation">Grandmother</div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Mom's Family (Parents and Siblings) -->
-                <div class="generation-wrapper">
-                    <div class="section-title" style="margin: 40px 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Maternal Line</div>
-                </div>
-                <div class="generation">
-                    <div class="member">
-                        <div class="member-name">Sarah Harrison (Bayless)</div>
-                        <div class="member-relation">Mother</div>
+                <!-- Level 3: Parents and Aunts/Uncles -->
+                <div class="generation-level level-3">
+                    <!-- Paternal Line -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Stuart Bayless</div>
+                            <div class="member-relation">Father</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Lisa Papp</div>
-                        <div class="member-relation">Aunt (Sister)</div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Stephanie Bayless</div>
+                            <div class="member-relation">Aunt</div>
+                        </div>
                     </div>
-                    <div class="member">
-                        <div class="member-name">Kari Langmyhr</div>
-                        <div class="member-relation">Aunt (Sister, Estranged)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Generation 4: You -->
-        <div class="tree-section you-generation">
-            <div class="section-title">Current Generation</div>
-            <div class="tree">
-                <div class="generation" style="margin-bottom: 0;">
-                    <div class="member you-member">
-                        <div class="member-name">You</div>
-                        <div class="member-relation">Family Historian</div>
+                    <!-- Maternal Line -->
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Sarah Harrison</div>
+                            <div class="member-relation">Mother</div>
+                        </div>
+                    </div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Lisa Papp</div>
+                            <div class="member-relation">Aunt</div>
+                        </div>
+                    </div>
+                    <div class="family-branch">
+                        <div class="member">
+                            <div class="member-name">Kari Langmyhr</div>
+                            <div class="member-relation">Aunt</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 4: You -->
+                <div class="generation-level level-5">
+                    <div class="family-branch">
+                        <div class="member you">
+                            <div class="member-name">You</div>
+                            <div class="member-relation">Family Historian</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Draw connecting lines
+        function drawConnections() {
+            const svg = document.getElementById('connections');
+            const members = document.querySelectorAll('.member');
+            const wrapper = document.querySelector('.tree-wrapper');
+            
+            // Clear previous lines
+            svg.innerHTML = '';
+            
+            // This is a simplified connection drawing
+            // In a full implementation, you'd calculate exact positions
+            svg.style.width = wrapper.offsetWidth + 'px';
+            svg.style.height = wrapper.offsetHeight + 'px';
+        }
+
+        // Draw on load and resize
+        window.addEventListener('load', drawConnections);
+        window.addEventListener('resize', drawConnections);
+    </script>
 </body>
 </html>
