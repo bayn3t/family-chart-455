@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Tree - Bayless/Langmyhr/Pattlette/Harrison</title>
+    <title>Four Generation Pedigree Chart</title>
     <style>
         * {
             margin: 0;
@@ -14,36 +14,36 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f5f5f5;
-            padding: 40px 20px;
+            padding: 20px;
             color: #333;
+            overflow-x: auto;
         }
 
         .container {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 4px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 1600px;
-            margin: 0 auto;
+            display: inline-block;
+            min-width: 100%;
         }
 
         h1 {
             text-align: center;
-            font-size: 2.2em;
-            margin-bottom: 50px;
+            font-size: 1.8em;
+            margin-bottom: 40px;
             color: #1a1a1a;
             font-weight: 600;
-            letter-spacing: 0.5px;
         }
 
-        .tree-wrapper {
+        .tree {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
             position: relative;
-            display: inline-block;
-            width: 100%;
-            overflow-x: auto;
         }
 
-        svg.connections {
+        svg {
             position: absolute;
             top: 0;
             left: 0;
@@ -53,463 +53,333 @@
             z-index: 0;
         }
 
-        .tree-content {
-            position: relative;
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            min-width: 180px;
             z-index: 1;
-            display: table;
-            width: 100%;
-        }
-
-        /* Generation columns */
-        .generation-column {
-            display: table-cell;
-            vertical-align: top;
-            width: 25%;
-            padding: 0 20px;
             position: relative;
         }
 
-        .generation-column h2 {
-            font-size: 1em;
+        .column-title {
             font-weight: 600;
+            font-size: 0.9em;
             color: #0066cc;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 2px solid #0066cc;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .members-list {
+        .generation-block {
             display: flex;
             flex-direction: column;
-            gap: 40px;
+            gap: 15px;
         }
 
-        .member-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 120px;
-        }
-
-        /* Member cards */
-        .member {
+        .person {
             background: white;
             border: 2px solid #333;
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 8px;
+            padding: 10px;
             text-align: center;
-            min-width: 160px;
-            position: relative;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            min-width: 150px;
+            font-size: 0.85em;
         }
 
-        .member-name {
+        .person.you {
+            border-width: 3px;
+            background: #f9f9f9;
             font-weight: 600;
-            color: #1a1a1a;
-            font-size: 0.95em;
-            margin-bottom: 8px;
         }
 
-        .member-info {
+        .person-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .person-info {
             font-size: 0.75em;
             color: #666;
-            line-height: 1.4;
+            line-height: 1.3;
         }
 
-        .member-info-row {
-            margin: 3px 0;
+        .couple {
+            position: relative;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
         }
 
-        .member-label {
-            font-weight: 600;
-            color: #333;
-            display: inline;
-        }
-
-        .member-value {
-            display: inline;
-        }
-
-        .member.highlight {
-            background: #f9f9f9;
-            border-width: 3px;
-        }
-
-        /* Relationship lines */
-        .line {
-            stroke: #2c3e50;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        .line-dashed {
-            stroke: #2c3e50;
-            stroke-width: 2;
-            stroke-dasharray: 5,5;
-            fill: none;
-        }
-
-        /* Couple connection */
-        .couple-line {
-            stroke: #2c3e50;
-            stroke-width: 2;
-            fill: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .generation-column {
-                width: 50%;
-                padding: 0 15px;
-            }
-
-            .member {
-                min-width: 140px;
-                padding: 12px;
-            }
-
-            .member-name {
-                font-size: 0.9em;
-            }
-
-            .member-info {
-                font-size: 0.7em;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .generation-column {
-                width: 100%;
-                padding: 0 10px;
-                margin-bottom: 40px;
-            }
-
-            .member {
-                min-width: 130px;
-            }
-        }
-
-        .footer {
+        .person-couple {
+            background: white;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 8px;
             text-align: center;
-            margin-top: 60px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            font-size: 0.85em;
-            color: #666;
+            font-size: 0.8em;
+        }
+
+        .person-couple + .person-couple {
+            margin-top: 5px;
+        }
+
+        .couple-label {
+            font-size: 0.7em;
+            color: #999;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        line {
+            stroke: #333;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        line.dash {
+            stroke-dasharray: 4, 4;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Four Generation Pedigree Chart</h1>
+        
+        <div class="tree">
+            <svg id="lines"></svg>
 
-        <div class="tree-wrapper">
-            <svg class="connections" id="connections"></svg>
+            <!-- Column 1: You -->
+            <div class="column">
+                <div class="column-title">YOU</div>
+                <div class="generation-block">
+                    <div class="person you" id="you">
+                        <div class="person-name">Reed Winston Bayless</div>
+                        <div class="person-info">
+                            b. 8-31-2003<br>
+                            Seattle, WA
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-            <div class="tree-content">
-                <!-- Generation 1: You -->
-                <div class="generation-column">
-                    <h2>Generation 1: You</h2>
-                    <div class="members-list">
-                        <div class="member-container">
-                            <div class="member highlight">
-                                <div class="member-name">Reed Winston Bayless</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">8-31-2003</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Seattle, Washington</span></div>
-                                </div>
+            <!-- Column 2: Parents -->
+            <div class="column">
+                <div class="column-title">PARENTS</div>
+                <div class="generation-block">
+                    <div class="couple">
+                        <div class="person-couple" id="father">
+                            <div class="person-name">Stuart Winston Bayless</div>
+                            <div class="person-info">
+                                b. 5-29-1965<br>
+                                Durham, NC
+                            </div>
+                        </div>
+                        <div class="person-couple" id="mother">
+                            <div class="person-name">Sarah Maureen Harrison</div>
+                            <div class="person-info">
+                                b. 8-29-1965<br>
+                                Princeton, NJ
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Generation 2: Parents -->
-                <div class="generation-column">
-                    <h2>Generation 2: Parents</h2>
-                    <div class="members-list">
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Stuart Winston Bayless</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">5-29-1965</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Durham, North Carolina</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Date:</span> <span class="member-value">8-02-1992</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Place:</span> <span class="member-value">Seattle, Washington</span></div>
-                                </div>
+            <!-- Column 3: Grandparents -->
+            <div class="column">
+                <div class="column-title">GRANDPARENTS</div>
+                <div class="generation-block">
+                    <!-- Paternal Grandparents -->
+                    <div class="couple">
+                        <div class="person-couple" id="pg1">
+                            <div class="person-name">Theodore Lynn Bayless</div>
+                            <div class="person-info">
+                                8-15-1935 — 7-30-2015<br>
+                                Findlay, Ohio
                             </div>
                         </div>
+                        <div class="person-couple" id="pg2">
+                            <div class="person-name">Willathea Patzer</div>
+                            <div class="person-info">
+                                8-15-1935 — 10-9-2025<br>
+                                Sommers Pt, NJ
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Sarah Maureen Harrison</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">8-29-1965</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Princeton, New Jersey</span></div>
-                                </div>
+                    <!-- Maternal Grandparents -->
+                    <div class="couple">
+                        <div class="person-couple" id="pg3">
+                            <div class="person-name">George John Langmyhr</div>
+                            <div class="person-info">
+                                12-28-1931 — 6-13-1993<br>
+                                Ontario, Canada
+                            </div>
+                        </div>
+                        <div class="person-couple" id="pg4">
+                            <div class="person-name">Maureen Macintyre Langmyhr</div>
+                            <div class="person-info">
+                                10-18-1930 — 12-15-2024<br>
+                                Roseau, Dominica
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Generation 3: Grandparents -->
-                <div class="generation-column">
-                    <h2>Generation 3: Grandparents</h2>
-                    <div class="members-list">
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Theodore Lynn Bayless</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">8-15-1935</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Findlay, Ohio</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">7-30-2015</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Mesa, Arizona</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Date:</span> <span class="member-value">3-28-1958</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Place:</span> <span class="member-value">Findlay, Ohio</span></div>
-                                </div>
+            <!-- Column 4: Great-Grandparents -->
+            <div class="column">
+                <div class="column-title">GREAT-GRANDPARENTS</div>
+                <div class="generation-block">
+                    <!-- Paternal Paternal -->
+                    <div class="couple">
+                        <div class="person-couple" id="gg1">
+                            <div class="person-name">Theodore Crowl Bayless</div>
+                            <div class="person-info">
+                                X-X-1913 — 10-17-1978
                             </div>
                         </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Willathea Patzer</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">8-15-1935</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Sommers Pt, New Jersey</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">10-9-2025</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Asheville, North Carolina</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">George John Langmyhr</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">12-28-1931</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Ontario, Canada</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">6-13-1993</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Albuquerque, New Mexico</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Date:</span> <span class="member-value">6-19-1989</span></div>
-                                    <div class="member-info-row"><span class="member-label">Marriage Place:</span> <span class="member-value">Ontario, Canada</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Maureen Macintyre Langmyhr</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">10-18-1930</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Roseau, Dominica</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">12-15-2024</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Bellingham, Washington</span></div>
-                                </div>
+                        <div class="person-couple" id="gg2">
+                            <div class="person-name">Doris Esther Sprauge</div>
+                            <div class="person-info">
+                                2-20-1914 — 8-26-2010
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Generation 4: Great-Grandparents -->
-                <div class="generation-column">
-                    <h2>Generation 4: Great-Grandparents</h2>
-                    <div class="members-list">
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Theodore Crowl Bayless</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">X-X-1913</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Findlay, Ohio</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">10-17-1978</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Findlay, Ohio</span></div>
-                                </div>
+                    <!-- Paternal Maternal -->
+                    <div class="couple">
+                        <div class="person-couple" id="gg3">
+                            <div class="person-name">William Henry Parlette</div>
+                            <div class="person-info">
+                                12-28-1908 — 2-24-1992
                             </div>
                         </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Doris Esther Sprauge</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">2-20-1914</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">8-26-2010</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Mesa, AZ</span></div>
-                                </div>
+                        <div class="person-couple" id="gg4">
+                            <div class="person-name">Mabel Althea Parlette</div>
+                            <div class="person-info">
+                                4-17-1912 — 12-28-1980
                             </div>
                         </div>
+                    </div>
 
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">William Henry Parlette</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">12-28-1908</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Delaware, PA</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">2-24-1992</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Atlantic City NJ</span></div>
-                                </div>
+                    <!-- Maternal Paternal -->
+                    <div class="couple">
+                        <div class="person-couple" id="gg5">
+                            <div class="person-name">Georg Johan Langmyhr</div>
+                            <div class="person-info">
+                                7-27-1883 — 2-28-1953
                             </div>
                         </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Mabel Althea Parlette</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">4-17-1912</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">12-28-1980</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Linwood, NJ</span></div>
-                                </div>
+                        <div class="person-couple" id="gg6">
+                            <div class="person-name">Ingeborg Olsdatter Sveen</div>
+                            <div class="person-info">
+                                2-3-1903 — 7-3-1967
                             </div>
                         </div>
+                    </div>
 
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Georg Johan Langmyhr</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">7-27-1883</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Vestfold, Norway</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">2-28-1953</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Lambton, Ontario</span></div>
-                                </div>
+                    <!-- Maternal Maternal -->
+                    <div class="couple">
+                        <div class="person-couple" id="gg7">
+                            <div class="person-name">William Flanders Harrison</div>
+                            <div class="person-info">
+                                10-20-1889 — 4-X-1975
                             </div>
                         </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Ingeborg Olsdatter Sveen</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">2-3-1903</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Ostfold, Norway</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">7-3-1967</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Ontario, Canada</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">William Flanders Harrison</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">10-20-1889</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Shropshire, England</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">4-X-1975</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Devon, England</span></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="member-container">
-                            <div class="member">
-                                <div class="member-name">Doris Macintyre Harrison</div>
-                                <div class="member-info">
-                                    <div class="member-info-row"><span class="member-label">Birth Date:</span> <span class="member-value">4-26-1894</span></div>
-                                    <div class="member-info-row"><span class="member-label">Birth Place:</span> <span class="member-value">Roseau, Dominica</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Date:</span> <span class="member-value">10-X-1977</span></div>
-                                    <div class="member-info-row"><span class="member-label">Death Place:</span> <span class="member-value">Hampshire England</span></div>
-                                </div>
+                        <div class="person-couple" id="gg8">
+                            <div class="person-name">Doris Macintyre Harrison</div>
+                            <div class="person-info">
+                                4-26-1894 — 10-X-1977
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="footer">
-            Family genealogical data compiled from oral family history and documented records.
-        </div>
     </div>
 
     <script>
-        function drawConnections() {
-            const svg = document.getElementById('connections');
-            const wrapper = document.querySelector('.tree-wrapper');
-            const columns = document.querySelectorAll('.generation-column');
+        function drawLines() {
+            const svg = document.getElementById('lines');
+            const tree = document.querySelector('.tree');
+            const rect = tree.getBoundingClientRect();
+            
+            svg.setAttribute('width', tree.offsetWidth);
+            svg.setAttribute('height', tree.offsetHeight);
+            svg.setAttribute('viewBox', `0 0 ${tree.offsetWidth} ${tree.offsetHeight}`);
 
-            svg.setAttribute('width', wrapper.offsetWidth);
-            svg.setAttribute('height', wrapper.offsetHeight);
-
-            // Clear previous lines
-            svg.innerHTML = '';
-
-            if (columns.length < 2) return;
-
-            // Get all members
-            const members = document.querySelectorAll('.member');
-
-            // Draw connecting lines from parents to child
-            // You (Gen 1) to Parents (Gen 2)
-            if (members.length >= 3) {
-                const you = members[0].getBoundingClientRect();
-                const father = members[1].getBoundingClientRect();
-                const mother = members[2].getBoundingClientRect();
-                const wrapperRect = wrapper.getBoundingClientRect();
-
-                // Draw lines from both parents to you
-                const youCenterX = you.left - wrapperRect.left + you.width / 2;
-                const youCenterY = you.top - wrapperRect.top + you.height / 2;
-
-                const fatherCenterX = father.left - wrapperRect.left + father.width / 2;
-                const fatherCenterY = father.top - wrapperRect.top + father.height / 2;
-
-                const motherCenterX = mother.left - wrapperRect.left + mother.width / 2;
-                const motherCenterY = mother.top - wrapperRect.top + mother.height / 2;
-
-                // Horizontal line connecting parents
-                const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line1.setAttribute('x1', fatherCenterX);
-                line1.setAttribute('y1', fatherCenterY + father.height / 2);
-                line1.setAttribute('x2', motherCenterX);
-                line1.setAttribute('y2', motherCenterY + mother.height / 2);
-                line1.setAttribute('class', 'couple-line');
-                svg.appendChild(line1);
-
-                // Vertical line from midpoint down to child line
-                const midX = (fatherCenterX + motherCenterX) / 2;
-                const downY = Math.max(fatherCenterY + father.height / 2, motherCenterY + mother.height / 2);
-                const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line2.setAttribute('x1', midX);
-                line2.setAttribute('y1', downY);
-                line2.setAttribute('x2', midX);
-                line2.setAttribute('y2', youCenterY - you.height / 2);
-                line2.setAttribute('class', 'line');
-                svg.appendChild(line2);
-
-                // Lines from midpoint to both parents
-                const line3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line3.setAttribute('x1', fatherCenterX);
-                line3.setAttribute('y1', fatherCenterY + father.height / 2);
-                line3.setAttribute('x2', midX);
-                line3.setAttribute('y2', downY);
-                line3.setAttribute('class', 'line');
-                svg.appendChild(line3);
-
-                const line4 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line4.setAttribute('x1', motherCenterX);
-                line4.setAttribute('y1', motherCenterY + mother.height / 2);
-                line4.setAttribute('x2', midX);
-                line4.setAttribute('y2', downY);
-                line4.setAttribute('class', 'line');
-                svg.appendChild(line4);
-
-                // Line to you
-                const line5 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line5.setAttribute('x1', midX);
-                line5.setAttribute('y1', youCenterY - you.height / 2);
-                line5.setAttribute('x2', youCenterX);
-                line5.setAttribute('y2', youCenterY - you.height / 2);
-                line5.setAttribute('class', 'line');
-                svg.appendChild(line5);
-
-                const line6 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line6.setAttribute('x1', youCenterX);
-                line6.setAttribute('y1', youCenterY - you.height / 2);
-                line6.setAttribute('x2', youCenterX);
-                line6.setAttribute('y2', youCenterY);
-                line6.setAttribute('class', 'line');
-                svg.appendChild(line6);
+            // Helper to get center of element
+            function getCenter(elem) {
+                const rect = elem.getBoundingClientRect();
+                const treeRect = tree.getBoundingClientRect();
+                return {
+                    x: rect.left - treeRect.left + rect.width / 2,
+                    y: rect.top - treeRect.top + rect.height / 2
+                };
             }
+
+            function drawLine(x1, y1, x2, y2, dash = false) {
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', x1);
+                line.setAttribute('y1', y1);
+                line.setAttribute('x2', x2);
+                line.setAttribute('y2', y2);
+                if (dash) line.setAttribute('class', 'dash');
+                svg.appendChild(line);
+            }
+
+            // Get elements
+            const you = document.getElementById('you');
+            const father = document.getElementById('father');
+            const mother = document.getElementById('mother');
+            const pg1 = document.getElementById('pg1');
+            const pg2 = document.getElementById('pg2');
+            const pg3 = document.getElementById('pg3');
+            const pg4 = document.getElementById('pg4');
+
+            // You to Parents
+            const youC = getCenter(you);
+            const fatherC = getCenter(father);
+            const motherC = getCenter(mother);
+
+            // Connect parents to each other
+            drawLine(fatherC.x, fatherC.y, motherC.x, motherC.y);
+
+            // Connect parents midpoint down to you
+            const parentMidX = (fatherC.x + motherC.x) / 2;
+            const downX = parentMidX;
+            const upY = fatherC.y + 40;
+            const downY = youC.y - 40;
+
+            drawLine(parentMidX, upY, downX, downY);
+            drawLine(downX, downY, youC.x, youC.y);
+
+            // Parents to Grandparents
+            const pg1C = getCenter(pg1);
+            const pg2C = getCenter(pg2);
+            const pg3C = getCenter(pg3);
+            const pg4C = getCenter(pg4);
+
+            // Father to paternal grandparents
+            const pGrandMidX1 = (pg1C.x + pg2C.x) / 2;
+            drawLine(pg1C.x, pg1C.y, pg2C.x, pg2C.y);
+            drawLine(fatherC.x, fatherC.y + 40, fatherC.x, fatherC.y + 80);
+            drawLine(fatherC.x, fatherC.y + 80, pGrandMidX1, fatherC.y + 80);
+            drawLine(pGrandMidX1, fatherC.y + 80, pGrandMidX1, pg1C.y - 40);
+
+            // Mother to maternal grandparents
+            const pGrandMidX2 = (pg3C.x + pg4C.x) / 2;
+            drawLine(pg3C.x, pg3C.y, pg4C.x, pg4C.y);
+            drawLine(motherC.x, motherC.y + 40, motherC.x, motherC.y + 80);
+            drawLine(motherC.x, motherC.y + 80, pGrandMidX2, motherC.y + 80);
+            drawLine(pGrandMidX2, motherC.y + 80, pGrandMidX2, pg3C.y - 40);
         }
 
-        window.addEventListener('load', drawConnections);
-        window.addEventListener('resize', drawConnections);
+        window.addEventListener('load', drawLines);
+        window.addEventListener('resize', drawLines);
     </script>
 </body>
 </html>
