@@ -13,237 +13,369 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            background: #f5f5f5;
+            padding: 40px 20px;
+            color: #333;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
             text-align: center;
-            color: #333;
-            margin-bottom: 40px;
-            font-size: 2.5em;
+            font-size: 2.2em;
+            margin-bottom: 50px;
+            color: #1a1a1a;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .tree-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        /* Tree structure */
+        .tree {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .generation {
-            margin-bottom: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            flex-wrap: wrap;
         }
 
-        .generation-title {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #667eea;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 3px solid #667eea;
+        .generation.parents {
+            gap: 80px;
         }
 
-        .family-members {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+        .generation.grandparents {
+            gap: 60px;
         }
 
-        .person-card {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            border-left: 5px solid #667eea;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .person-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .person-name {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 8px;
-        }
-
-        .relationship {
-            font-size: 0.95em;
-            color: #666;
-            background: rgba(102, 126, 234, 0.1);
-            display: inline-block;
-            padding: 5px 10px;
+        .member {
+            padding: 15px 25px;
+            border: 2px solid #2c3e50;
             border-radius: 20px;
-            margin-top: 10px;
+            background: white;
+            text-align: center;
+            min-width: 140px;
+            position: relative;
+            font-size: 0.95em;
+            font-weight: 500;
         }
 
-        .source {
+        .member-name {
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .member-relation {
             font-size: 0.85em;
-            color: #999;
-            margin-top: 10px;
-            font-style: italic;
+            color: #666;
+            font-weight: 400;
         }
 
-        .met-badge {
+        /* Connection lines */
+        svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .generation-wrapper {
+            position: relative;
+            width: 100%;
+            min-height: 120px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Grandparents sibling groups */
+        .sibling-group {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            align-items: flex-start;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .sibling-group-title {
+            font-size: 0.95em;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+            grid-column: 1 / -1;
+        }
+
+        .generation.great-grandparents {
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .great-grandparent-pair {
+            text-align: center;
+        }
+
+        .great-grandparent-pair .member {
+            margin: 0 10px;
             display: inline-block;
-            background: #4CAF50;
-            color: white;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-size: 0.75em;
-            margin-top: 5px;
+            min-width: 130px;
+        }
+
+        /* You (bottom) */
+        .you-generation {
+            margin-top: 50px;
+        }
+
+        .you-member {
+            padding: 18px 30px;
+            border: 3px solid #2c3e50;
+            background: #f9f9f9;
+        }
+
+        /* Connection styling */
+        .connection-line {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+            fill: none;
+        }
+
+        .connection-solid {
+            stroke: #2c3e50;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .generation {
+                gap: 20px;
+            }
+
+            .generation.parents {
+                gap: 40px;
+            }
+
+            .member {
+                min-width: 120px;
+                padding: 12px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 30px;
+            }
+
+            .generation {
+                gap: 15px;
+                margin-bottom: 30px;
+            }
+
+            .generation.parents {
+                gap: 30px;
+            }
+
+            .member {
+                min-width: 110px;
+                padding: 10px 15px;
+                font-size: 0.85em;
+            }
+
+            .member-name {
+                font-size: 0.9em;
+            }
+
+            .member-relation {
+                font-size: 0.75em;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>👨‍👩‍👧‍👦 Family Tree</h1>
+        <h1>Family Tree</h1>
 
-        <!-- Your Generation -->
-        <div class="generation">
-            <div class="generation-title">📍 Your Generation</div>
-            <div class="family-members">
-                <!-- This row is for you when ready to add -->
-            </div>
-        </div>
-
-        <!-- Parents -->
-        <div class="generation">
-            <div class="generation-title">👨‍👩 Your Parents</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">Sarah Harrison (Bayless)</div>
-                    <div class="relationship">Your Mother</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">Stuart Bayless</div>
-                    <div class="relationship">Your Father</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Grandparents - Dad's Side -->
-        <div class="generation">
-            <div class="generation-title">👴👵 Grandparents - Dad's Side (Bayless)</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">Theodore Lynn Bayless</div>
-                    <div class="relationship">Grandfather, Dad's Side</div>
-                    <div class="source">Oral family history</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">Willathea Patzer</div>
-                    <div class="relationship">Grandmother, Dad's Side</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
+        <!-- Generation 1: Great-Grandparents (Dad's Side) -->
+        <div class="tree-section">
+            <div class="section-title">Great-Grandparents - Paternal Line</div>
+            <div class="tree">
+                <div class="generation great-grandparents">
+                    <div class="member">
+                        <div class="member-name">Theodore Crowl Bayless</div>
+                        <div class="member-relation">Great-Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Doris Esther Sprauge</div>
+                        <div class="member-relation">Great-Grandmother</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">William Henry Parlette</div>
+                        <div class="member-relation">Great-Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Mabel Althea Parlette</div>
+                        <div class="member-relation">Great-Grandmother</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Grandparents - Mom's Side -->
-        <div class="generation">
-            <div class="generation-title">👴👵 Grandparents - Mom's Side (Langmyhr/Harrison)</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">George John Langmyhr</div>
-                    <div class="relationship">Grandfather, Mom's Side</div>
-                    <div class="source">Oral family history (passed young)</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">Maureen Macintyre Langmyhr</div>
-                    <div class="relationship">Grandmother, Mom's Side</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Great-Grandparents - Dad's Side -->
-        <div class="generation">
-            <div class="generation-title">👴👵 Great-Grandparents - Dad's Side</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">Theodore Crowl Bayless</div>
-                    <div class="relationship">Great-Grandfather, Dad's Side</div>
-                    <div class="source">Oral family history</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">Doris Esther Sprauge</div>
-                    <div class="relationship">Great-Grandmother, Dad's Side</div>
-                    <div class="source">Oral family history</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">William Henry Parlette</div>
-                    <div class="relationship">Great-Grandfather, Dad's Side</div>
-                    <div class="source">Oral family history</div>
-                </div>
-                <div class="person-card">
-                    <div class="person-name">Mabel Althea Parlette</div>
-                    <div class="relationship">Great-Grandmother, Dad's Side</div>
-                    <div class="source">Oral family history</div>
+        <!-- Generation 1: Great-Grandparents (Mom's Side) -->
+        <div class="tree-section">
+            <div class="section-title">Great-Grandparents - Maternal Line</div>
+            <div class="tree">
+                <div class="generation great-grandparents">
+                    <div class="member">
+                        <div class="member-name">Georg Johan Langmyhr</div>
+                        <div class="member-relation">Great-Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Ingeborg Olsdatter Sveen</div>
+                        <div class="member-relation">Great-Grandmother</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">William Flanders Harrison</div>
+                        <div class="member-relation">Great-Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Doris Macintyre Harrison</div>
+                        <div class="member-relation">Great-Grandmother</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Great-Grandparents - Mom's Side -->
-        <div class="generation">
-            <div class="generation-title">👴👵 Great-Grandparents - Mom's Side</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">Georg Johan Langmyhr</div>
-                    <div class="relationship">Great-Grandfather, Mom's Side</div>
-                    <div class="source">Oral family history</div>
+        <!-- Generation 2: Grandparents -->
+        <div class="tree-section">
+            <div class="section-title">Grandparents</div>
+            <div class="tree">
+                <!-- Dad's Parents -->
+                <div class="generation-wrapper">
+                    <div class="section-title" style="margin: 0 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Paternal Grandparents</div>
                 </div>
-                <div class="person-card">
-                    <div class="person-name">Ingeborg Olsdatter Sveen</div>
-                    <div class="relationship">Great-Grandmother, Mom's Side</div>
-                    <div class="source">Oral family history</div>
+                <div class="generation">
+                    <div class="member">
+                        <div class="member-name">Theodore Lynn Bayless</div>
+                        <div class="member-relation">Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Willathea Patzer</div>
+                        <div class="member-relation">Grandmother</div>
+                    </div>
                 </div>
-                <div class="person-card">
-                    <div class="person-name">William Flanders Harrison</div>
-                    <div class="relationship">Great-Grandfather, Mom's Side</div>
-                    <div class="source">Oral family history</div>
+
+                <!-- Mom's Parents -->
+                <div class="generation-wrapper">
+                    <div class="section-title" style="margin: 40px 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Maternal Grandparents</div>
                 </div>
-                <div class="person-card">
-                    <div class="person-name">Doris Macintyre Harrison</div>
-                    <div class="relationship">Great-Grandmother, Mom's Side</div>
-                    <div class="source">Oral family history</div>
+                <div class="generation">
+                    <div class="member">
+                        <div class="member-name">George John Langmyhr</div>
+                        <div class="member-relation">Grandfather</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Maureen Macintyre Langmyhr</div>
+                        <div class="member-relation">Grandmother</div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Aunts/Uncles -->
-        <div class="generation">
-            <div class="generation-title">👨‍👩 Extended Family</div>
-            <div class="family-members">
-                <div class="person-card">
-                    <div class="person-name">Lisa Papp</div>
-                    <div class="relationship">Mom's Sister</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
+        <!-- Generation 3: Parents & Their Siblings -->
+        <div class="tree-section">
+            <div class="section-title">Parents & Aunts/Uncles</div>
+            <div class="tree">
+                <!-- Dad's Family (Parents and Siblings) -->
+                <div class="generation-wrapper">
+                    <div class="section-title" style="margin: 0 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Paternal Line</div>
                 </div>
-                <div class="person-card">
-                    <div class="person-name">Kari Langmyhr</div>
-                    <div class="relationship">Mom's Sister (Estranged)</div>
-                    <div class="source">Oral family history</div>
+                <div class="generation">
+                    <div class="member">
+                        <div class="member-name">Stuart Bayless</div>
+                        <div class="member-relation">Father</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Stephanie Bayless</div>
+                        <div class="member-relation">Aunt (Sister)</div>
+                    </div>
                 </div>
-                <div class="person-card">
-                    <div class="person-name">Stephanie Bayless</div>
-                    <div class="relationship">Dad's Sister</div>
-                    <div class="source">Oral family history / I have met them</div>
-                    <div class="met-badge">✓ Met</div>
+
+                <!-- Mom's Family (Parents and Siblings) -->
+                <div class="generation-wrapper">
+                    <div class="section-title" style="margin: 40px 0 20px 0; border: none; font-size: 1em; width: 100%; text-align: center;">Maternal Line</div>
+                </div>
+                <div class="generation">
+                    <div class="member">
+                        <div class="member-name">Sarah Harrison (Bayless)</div>
+                        <div class="member-relation">Mother</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Lisa Papp</div>
+                        <div class="member-relation">Aunt (Sister)</div>
+                    </div>
+                    <div class="member">
+                        <div class="member-name">Kari Langmyhr</div>
+                        <div class="member-relation">Aunt (Sister, Estranged)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Generation 4: You -->
+        <div class="tree-section you-generation">
+            <div class="section-title">Current Generation</div>
+            <div class="tree">
+                <div class="generation" style="margin-bottom: 0;">
+                    <div class="member you-member">
+                        <div class="member-name">You</div>
+                        <div class="member-relation">Family Historian</div>
+                    </div>
                 </div>
             </div>
         </div>
