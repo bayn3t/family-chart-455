@@ -23,7 +23,7 @@
             padding: 30px;
             border-radius: 4px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
         }
 
@@ -90,20 +90,25 @@
             position: relative;
             z-index: 1;
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 20px;
         }
 
-        .generation-label {
-            position: absolute;
-            left: -120px;
-            top: 0;
-            font-weight: 600;
-            font-size: 0.9em;
-            color: #0066cc;
-            width: 100px;
-            text-align: right;
+        .generation-side {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            flex: 1;
+        }
+
+        .generation-side.paternal {
+            padding-right: 20px;
+            border-right: 2px solid #e0e0e0;
+        }
+
+        .generation-side.maternal {
+            padding-left: 20px;
         }
 
         .lineage {
@@ -133,7 +138,7 @@
             border-width: 3px;
             background: #f9f9f9;
             font-weight: 600;
-            min-width: 160px;
+            min-width: 180px;
             padding: 12px;
         }
 
@@ -164,18 +169,19 @@
             line-height: 1.3;
         }
 
-        .couple-label {
-            font-size: 0.7em;
-            color: #999;
-            margin-top: 2px;
-            text-align: center;
-        }
-
         .couple-dash {
             width: 8px;
             height: 1px;
             background: #333;
             margin: 0 5px;
+        }
+
+        .center-section {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+            gap: 20px;
         }
 
         line {
@@ -198,10 +204,6 @@
         }
 
         @media (max-width: 1200px) {
-            .generation {
-                gap: 30px;
-            }
-
             .person {
                 min-width: 120px;
                 font-size: 0.75em;
@@ -209,12 +211,20 @@
             }
 
             .person.you {
-                min-width: 140px;
+                min-width: 160px;
             }
 
             .legend {
                 gap: 20px;
                 flex-wrap: wrap;
+            }
+
+            .generation-side.paternal {
+                padding-right: 10px;
+            }
+
+            .generation-side.maternal {
+                padding-left: 10px;
             }
         }
 
@@ -224,7 +234,7 @@
             }
 
             .generation {
-                gap: 20px;
+                gap: 10px;
             }
 
             .person {
@@ -246,6 +256,18 @@
                 gap: 15px;
                 flex-direction: column;
                 align-items: center;
+            }
+
+            .generation-side.paternal {
+                padding-right: 0;
+                border-right: none;
+                border-bottom: 2px solid #e0e0e0;
+                padding-bottom: 20px;
+            }
+
+            .generation-side.maternal {
+                padding-left: 0;
+                padding-top: 20px;
             }
         }
     </style>
@@ -274,62 +296,64 @@
 
             <!-- Generation 1: Great-Grandparents -->
             <div class="generation">
-                <div class="generation-label">Gen 4</div>
-
-                <!-- Paternal Line -->
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person paternal" id="gg1">
-                            <div class="person-name">Theodore Crowl Bayless</div>
-                            <div class="person-info">1913 — 1978</div>
+                <!-- PATERNAL SIDE (Left) -->
+                <div class="generation-side paternal">
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person paternal" id="gg1">
+                                <div class="person-name">Theodore Crowl Bayless</div>
+                                <div class="person-info">1913 — 1978</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person paternal" id="gg2">
+                                <div class="person-name">Doris Esther Sprauge</div>
+                                <div class="person-info">1914 — 2010</div>
+                            </div>
                         </div>
-                        <div class="couple-dash"></div>
-                        <div class="person paternal" id="gg2">
-                            <div class="person-name">Doris Esther Sprauge</div>
-                            <div class="person-info">1914 — 2010</div>
+                    </div>
+
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person paternal" id="gg3">
+                                <div class="person-name">William Henry Parlette</div>
+                                <div class="person-info">1908 — 1992</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person paternal" id="gg4">
+                                <div class="person-name">Mabel Althea Parlette</div>
+                                <div class="person-info">1912 — 1980</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person paternal" id="gg3">
-                            <div class="person-name">William Henry Parlette</div>
-                            <div class="person-info">1908 — 1992</div>
-                        </div>
-                        <div class="couple-dash"></div>
-                        <div class="person paternal" id="gg4">
-                            <div class="person-name">Mabel Althea Parlette</div>
-                            <div class="person-info">1912 — 1980</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Maternal Line -->
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person maternal" id="gg5">
-                            <div class="person-name">Georg Johan Langmyhr</div>
-                            <div class="person-info">1883 — 1953</div>
-                        </div>
-                        <div class="couple-dash"></div>
-                        <div class="person maternal" id="gg6">
-                            <div class="person-name">Ingeborg Olsdatter Sveen</div>
-                            <div class="person-info">1903 — 1967</div>
+                <!-- MATERNAL SIDE (Right) -->
+                <div class="generation-side maternal">
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person maternal" id="gg5">
+                                <div class="person-name">Georg Johan Langmyhr</div>
+                                <div class="person-info">1883 — 1953</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person maternal" id="gg6">
+                                <div class="person-name">Ingeborg Olsdatter Sveen</div>
+                                <div class="person-info">1903 — 1967</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person maternal" id="gg7">
-                            <div class="person-name">William Flanders Harrison</div>
-                            <div class="person-info">1889 — 1975</div>
-                        </div>
-                        <div class="couple-dash"></div>
-                        <div class="person maternal" id="gg8">
-                            <div class="person-name">Doris Macintyre Harrison</div>
-                            <div class="person-info">1894 — 1977</div>
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person maternal" id="gg7">
+                                <div class="person-name">William Flanders Harrison</div>
+                                <div class="person-info">1889 — 1975</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person maternal" id="gg8">
+                                <div class="person-name">Doris Macintyre Harrison</div>
+                                <div class="person-info">1894 — 1977</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -337,43 +361,43 @@
 
             <!-- Generation 2: Grandparents -->
             <div class="generation">
-                <div class="generation-label">Gen 3</div>
-
-                <!-- Paternal Grandparents -->
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person paternal" id="pg1">
-                            <div class="person-name">Theodore Lynn Bayless</div>
-                            <div class="person-info">1935 — 2015</div>
-                        </div>
-                        <div class="couple-dash"></div>
-                        <div class="person paternal" id="pg2">
-                            <div class="person-name">Willathea Patzer</div>
-                            <div class="person-info">1935 — 2025</div>
+                <!-- PATERNAL SIDE (Left) -->
+                <div class="generation-side paternal">
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person paternal" id="pg1">
+                                <div class="person-name">Theodore Lynn Bayless</div>
+                                <div class="person-info">1935 — 2015</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person paternal" id="pg2">
+                                <div class="person-name">Willathea Patzer</div>
+                                <div class="person-info">1935 — 2025</div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Maternal Grandparents -->
-                <div class="lineage">
-                    <div class="couple">
-                        <div class="person maternal" id="pg3">
-                            <div class="person-name">George John Langmyhr</div>
-                            <div class="person-info">1931 — 1993</div>
-                        </div>
-                        <div class="couple-dash"></div>
-                        <div class="person maternal" id="pg4">
-                            <div class="person-name">Maureen Macintyre Langmyhr</div>
-                            <div class="person-info">1930 — 2024</div>
+                <!-- MATERNAL SIDE (Right) -->
+                <div class="generation-side maternal">
+                    <div class="lineage">
+                        <div class="couple">
+                            <div class="person maternal" id="pg3">
+                                <div class="person-name">George John Langmyhr</div>
+                                <div class="person-info">1931 — 1993</div>
+                            </div>
+                            <div class="couple-dash"></div>
+                            <div class="person maternal" id="pg4">
+                                <div class="person-name">Maureen Macintyre Langmyhr</div>
+                                <div class="person-info">1930 — 2024</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Generation 3: Parents -->
-            <div class="generation">
-                <div class="generation-label">Gen 2</div>
-
+            <div class="center-section">
                 <div class="lineage">
                     <div class="couple">
                         <div class="person paternal" id="father">
@@ -390,9 +414,7 @@
             </div>
 
             <!-- Generation 4: You -->
-            <div class="generation">
-                <div class="generation-label">Gen 1</div>
-
+            <div class="center-section">
                 <div class="lineage">
                     <div class="person you merged" id="you">
                         <div class="person-name">Reed Winston Bayless</div>
